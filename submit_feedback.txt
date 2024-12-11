@@ -1,0 +1,33 @@
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Sanitize the input to prevent XSS and other security issues
+    $name = htmlspecialchars($_POST['name']);
+    $email = htmlspecialchars($_POST['email']);
+    $feedback = htmlspecialchars($_POST['feedback']);
+    $rating = isset($_POST['rating']) ? htmlspecialchars($_POST['rating']) : 'No rating given';
+    
+    // Handle the "liked about our service" checkboxes
+    $liked = isset($_POST['liked']) ? $_POST['liked'] : [];
+
+    // Display the feedback
+    echo "<div class='container'>";
+    echo "<h2>Thank you for your feedback!</h2>";
+    echo "<p><strong>Name:</strong> $name</p>";
+    echo "<p><strong>Email:</strong> $email</p>";
+    echo "<p><strong>Feedback:</strong> $feedback</p>";
+    echo "<p><strong>Rating:</strong> $rating</p>";
+    
+    // Display the liked services
+    if (!empty($liked)) {
+        echo "<p><strong>What you liked about our service:</strong></p>";
+        echo "<ul>";
+        foreach ($liked as $like) {
+            echo "<li>$like</li>";
+        }
+        echo "</ul>";
+    } else {
+        echo "<p><strong>What you liked about our service:</strong> No selections made</p>";
+    }
+    echo "</div>";
+}
+?>
